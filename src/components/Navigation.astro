@@ -7,6 +7,7 @@ const navLinks = [
   { name: 'Education', href: '#education' },
   { name: 'Contact', href: '#contact' },
 ];
+const assetPath = (path: string) => (path.startsWith('/') ? path : `/${path}`);
 ---
 
 <nav class="fixed top-0 left-0 right-0 z-50 glass">
@@ -24,7 +25,7 @@ const navLinks = [
             {link.name}
           </a>
         ))}
-        <a href={profile.resumePath} class="text-sm px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-lg transition-all" download>
+        <a href={assetPath(profile.resumePath)} class="text-sm px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-lg transition-all" download>
           Resume
         </a>
       </div>
@@ -43,7 +44,7 @@ const navLinks = [
             {link.name}
           </a>
         ))}
-        <a href={profile.resumePath} class="mt-2 text-center px-3 py-2 bg-[var(--color-primary)] text-white rounded-lg" download>
+        <a href={assetPath(profile.resumePath)} class="mt-2 text-center px-3 py-2 bg-[var(--color-primary)] text-white rounded-lg" download>
           Resume
         </a>
       </div>
