@@ -46,6 +46,8 @@ const cities = [
     sketchNote: 'Thames, Tower Bridge, clock tower, and skyline'
   }
 ];
+
+const assetPath = (path: string) => (path.startsWith('/') ? path : `/${path}`);
 ---
 
 <!doctype html>
@@ -57,7 +59,7 @@ const cities = [
       name="description"
       content="A pencil-sketch prototype for city mentions in Siddartha Posam's portfolio."
     />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={assetPath('/favicon.svg')} />
     <title>City Sketch Prototype | Siddartha Posam</title>
     <style>
       :root {
@@ -496,11 +498,11 @@ const cities = [
   <body>
     <main class="shell">
       <header class="topbar">
-        <a class="brand" href="/">
+        <a class="brand" href={assetPath('/')}>
           <span class="brand-mark">SP</span>
           <span>Portfolio visual prototype</span>
         </a>
-        <a class="back-link" href="/">Back to portfolio</a>
+        <a class="back-link" href={assetPath('/')}>Back to portfolio</a>
       </header>
 
       <section class="hero" aria-labelledby="page-title">
