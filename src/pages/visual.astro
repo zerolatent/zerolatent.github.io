@@ -1,0 +1,837 @@
+---
+const cities = [
+  {
+    id: 'austin',
+    name: 'Austin',
+    label: 'Austin, TX',
+    chapter: 'Current base',
+    detail: 'AI product engineering, BNPL quality strategy, and practical LLM workflows at PayPal.',
+    stat: '2020 - Present',
+    sketchNote: 'Skyline, river, and Capitol-inspired dome'
+  },
+  {
+    id: 'baltimore',
+    name: 'Baltimore',
+    label: 'Baltimore, MD',
+    chapter: 'Backend engineering',
+    detail: 'Early PayPal Credit years building backend systems, automation, and release confidence.',
+    stat: '2014 - 2020',
+    sketchNote: 'Harbor waterline, rowhouses, and cranes'
+  },
+  {
+    id: 'memphis',
+    name: 'Memphis',
+    label: 'Memphis, TN',
+    chapter: 'Graduate work',
+    detail: 'MS Computer Engineering, AI coursework, pattern recognition, and Computer Intelligence Lab research.',
+    stat: '2011 - 2013',
+    sketchNote: 'River bridge, pyramid, and bluff skyline'
+  },
+  {
+    id: 'hyderabad',
+    name: 'Hyderabad',
+    label: 'Hyderabad, India',
+    chapter: 'Engineering roots',
+    detail: 'Undergrad foundation in electronics and computer engineering before moving into AI and fintech work.',
+    stat: '2007 - 2011',
+    sketchNote: 'Charminar-inspired arches and minarets'
+  },
+  {
+    id: 'london',
+    name: 'London',
+    label: 'London, UK',
+    chapter: 'Concept sketch',
+    detail: 'A non-resume concept sketch using the Thames, Tower Bridge, a clock tower, and layered skyline to test how the city interaction scales.',
+    stat: 'Prototype',
+    sketchNote: 'Thames, Tower Bridge, clock tower, and skyline'
+  }
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A pencil-sketch prototype for city mentions in Siddartha Posam's portfolio."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>City Sketch Prototype | Siddartha Posam</title>
+    <style>
+      :root {
+        --bg: #07080d;
+        --paper: #f2eee4;
+        --paper-shadow: #c8beb0;
+        --panel: rgba(15, 18, 28, 0.78);
+        --text: #f4f7fb;
+        --text-soft: #aeb8c8;
+        --text-muted: #6d788b;
+        --cyan: #17c7d9;
+        --gold: #ffd166;
+        --pencil: #2e3440;
+        --pencil-soft: rgba(46, 52, 64, 0.48);
+        --border: rgba(174, 184, 200, 0.14);
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at 20% 10%, rgba(23, 199, 217, 0.14), transparent 32rem),
+          radial-gradient(circle at 86% 78%, rgba(255, 209, 102, 0.11), transparent 30rem),
+          linear-gradient(135deg, #07080d 0%, #10131b 52%, #090b12 100%);
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        background-size: 44px 44px;
+        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent 85%);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .shell {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 32px 0 56px;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 32px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text-soft);
+        font-size: 0.9rem;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--cyan);
+        font-weight: 800;
+      }
+
+      .back-link {
+        color: var(--text-soft);
+        font-size: 0.86rem;
+        text-decoration: none;
+        border: 1px solid var(--border);
+        padding: 9px 12px;
+        background: rgba(255, 255, 255, 0.04);
+        transition: border-color 180ms ease, color 180ms ease;
+      }
+
+      .back-link:hover {
+        color: var(--text);
+        border-color: rgba(23, 199, 217, 0.48);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(430px, 1.1fr);
+        grid-template-areas:
+          "intro sketch"
+          "timeline sketch";
+        gap: 32px;
+        align-items: stretch;
+      }
+
+      .intro {
+        grid-area: intro;
+      }
+
+      .eyebrow {
+        color: var(--cyan);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        margin: 0 0 18px;
+      }
+
+      h1 {
+        max-width: 720px;
+        margin: 0;
+        font-size: clamp(3rem, 8vw, 6.4rem);
+        line-height: 0.86;
+        letter-spacing: 0;
+      }
+
+      .intro-copy {
+        max-width: 620px;
+        margin: 24px 0 0;
+        color: var(--text-soft);
+        font-size: 1.04rem;
+        line-height: 1.7;
+      }
+
+      .city-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .city-chip {
+        appearance: none;
+        border: 1px solid rgba(23, 199, 217, 0.36);
+        color: var(--text);
+        background: rgba(23, 199, 217, 0.08);
+        padding: 2px 8px;
+        margin: 0;
+        font: inherit;
+        cursor: pointer;
+        transition:
+          background 160ms ease,
+          border-color 160ms ease,
+          color 160ms ease,
+          box-shadow 160ms ease;
+      }
+
+      .city-chip:hover,
+      .city-chip:focus-visible,
+      .city-chip.is-active {
+        outline: none;
+        color: #041016;
+        background: var(--cyan);
+        border-color: var(--cyan);
+        box-shadow: 0 0 22px rgba(23, 199, 217, 0.34);
+      }
+
+      .timeline {
+        grid-area: timeline;
+        align-self: end;
+        display: grid;
+        gap: 12px;
+      }
+
+      .moment {
+        display: grid;
+        grid-template-columns: 92px 1fr;
+        gap: 16px;
+        padding: 16px 0;
+        border-top: 1px solid var(--border);
+      }
+
+      .moment:last-child {
+        border-bottom: 1px solid var(--border);
+      }
+
+      .moment__date {
+        color: var(--text-muted);
+        font-size: 0.78rem;
+        line-height: 1.45;
+      }
+
+      .moment__text {
+        margin: 0;
+        color: var(--text-soft);
+        line-height: 1.6;
+      }
+
+      .sketch-panel {
+        grid-area: sketch;
+        position: sticky;
+        top: 24px;
+        min-height: 650px;
+        display: grid;
+        grid-template-rows: 1fr auto;
+        gap: 18px;
+      }
+
+      .sketchbook {
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-height: 455px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        background:
+          linear-gradient(150deg, rgba(255, 255, 255, 0.06), transparent 42%),
+          rgba(255, 255, 255, 0.035);
+        box-shadow: var(--shadow);
+      }
+
+      .paper {
+        position: relative;
+        width: min(92%, 720px);
+        aspect-ratio: 1.62 / 1;
+        background:
+          radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.78), transparent 24%),
+          repeating-linear-gradient(0deg, rgba(46, 52, 64, 0.035) 0 1px, transparent 1px 9px),
+          var(--paper);
+        border: 1px solid rgba(46, 52, 64, 0.12);
+        box-shadow:
+          0 18px 54px rgba(0, 0, 0, 0.34),
+          10px 10px 0 rgba(255, 255, 255, 0.06),
+          inset 0 0 0 10px rgba(255, 255, 255, 0.22);
+        transform: rotate(-1deg);
+      }
+
+      .paper::before,
+      .paper::after {
+        content: "";
+        position: absolute;
+        inset: 18px;
+        pointer-events: none;
+      }
+
+      .paper::before {
+        border: 1px solid rgba(46, 52, 64, 0.1);
+      }
+
+      .paper::after {
+        background-image:
+          linear-gradient(110deg, transparent 0 82%, rgba(46, 52, 64, 0.04) 83% 84%, transparent 85%),
+          linear-gradient(70deg, transparent 0 88%, rgba(46, 52, 64, 0.035) 89% 90%, transparent 91%);
+        background-size: 64px 64px, 72px 72px;
+        mix-blend-mode: multiply;
+      }
+
+      .sketch-svg {
+        position: absolute;
+        inset: 8%;
+        width: 84%;
+        height: 84%;
+        overflow: visible;
+      }
+
+      .sketch {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 220ms ease, transform 220ms ease;
+      }
+
+      .sketch.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .pencil-line,
+      .pencil-detail,
+      .pencil-shade,
+      .pencil-ghost,
+      .pencil-fill {
+        stroke: var(--pencil);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .pencil-line {
+        fill: none;
+        stroke-width: 2.4;
+        filter: url(#rough-pencil);
+      }
+
+      .pencil-detail {
+        fill: none;
+        stroke-width: 1.25;
+        opacity: 0.7;
+      }
+
+      .pencil-shade {
+        fill: none;
+        stroke: var(--pencil-soft);
+        stroke-width: 1;
+        opacity: 0.72;
+      }
+
+      .pencil-ghost {
+        fill: none;
+        stroke: rgba(46, 52, 64, 0.24);
+        stroke-width: 0.9;
+        opacity: 0.8;
+      }
+
+      .pencil-fill {
+        fill: rgba(46, 52, 64, 0.055);
+        stroke-width: 1.2;
+        opacity: 0.96;
+      }
+
+      .sketch-title {
+        fill: var(--pencil);
+        font: 700 32px Inter, system-ui, sans-serif;
+        letter-spacing: 0;
+      }
+
+      .sketch-note {
+        fill: rgba(46, 52, 64, 0.64);
+        font: 500 16px Inter, system-ui, sans-serif;
+      }
+
+      .detail-panel {
+        border: 1px solid var(--border);
+        background: var(--panel);
+        padding: 22px;
+        backdrop-filter: blur(18px);
+      }
+
+      .detail-panel__kicker {
+        margin: 0 0 8px;
+        color: var(--cyan);
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .detail-panel__title {
+        margin: 0;
+        font-size: clamp(1.7rem, 4vw, 2.6rem);
+        line-height: 1;
+      }
+
+      .detail-panel__meta {
+        margin: 8px 0 0;
+        color: var(--gold);
+        font-size: 0.84rem;
+        font-weight: 700;
+      }
+
+      .detail-panel__copy {
+        min-height: 54px;
+        margin: 16px 0 0;
+        color: var(--text-soft);
+        line-height: 1.65;
+      }
+
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .legend__item {
+        border: 1px solid var(--border);
+        color: var(--text-soft);
+        background: rgba(255, 255, 255, 0.035);
+        padding: 8px 10px;
+        font-size: 0.78rem;
+      }
+
+      @media (max-width: 920px) {
+        .hero {
+          grid-template-columns: 1fr;
+          grid-template-areas:
+            "intro"
+            "sketch"
+            "timeline";
+        }
+
+        .sketch-panel {
+          position: relative;
+          top: auto;
+          min-height: auto;
+        }
+
+        .sketchbook {
+          min-height: 390px;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .shell {
+          width: min(100% - 24px, 1180px);
+          padding-top: 18px;
+        }
+
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        h1 {
+          font-size: clamp(2.6rem, 18vw, 4rem);
+        }
+
+        .moment {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+
+        .sketchbook {
+          min-height: 330px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/">
+          <span class="brand-mark">SP</span>
+          <span>Portfolio visual prototype</span>
+        </a>
+        <a class="back-link" href="/">Back to portfolio</a>
+      </header>
+
+      <section class="hero" aria-labelledby="page-title">
+        <div class="intro">
+          <p class="eyebrow">City mentions become sketches</p>
+          <h1 id="page-title">Pencil city concept</h1>
+          <p class="intro-copy">
+            Instead of a map, each city mention can open a loose pencil sketch tied to that chapter.
+          </p>
+          <div class="city-options" aria-label="City sketch options">
+            <button class="city-chip is-active" data-city="austin">Austin, TX</button>
+            <button class="city-chip" data-city="baltimore">Baltimore, MD</button>
+            <button class="city-chip" data-city="memphis">Memphis, TN</button>
+            <button class="city-chip" data-city="hyderabad">Hyderabad, India</button>
+            <button class="city-chip" data-city="london">London, UK</button>
+          </div>
+        </div>
+
+        <aside class="sketch-panel" aria-label="Interactive city sketch">
+          <div class="sketchbook">
+            <div class="paper">
+              <svg class="sketch-svg" viewBox="0 0 900 520" role="img" aria-labelledby="sketch-label">
+                <title id="sketch-label">Pencil sketch that changes with the selected city</title>
+                <defs>
+                  <filter id="rough-pencil" x="-8%" y="-8%" width="116%" height="116%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" result="noise" />
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.8" />
+                  </filter>
+                  <pattern id="graphite-hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-18)">
+                    <path d="M0 8H12" stroke="rgba(46,52,64,0.18)" stroke-width="1" />
+                  </pattern>
+                  <pattern id="fine-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(28)">
+                    <path d="M0 5H8" stroke="rgba(46,52,64,0.13)" stroke-width="0.8" />
+                  </pattern>
+                </defs>
+
+                <g class="sketch is-visible" data-sketch-city="austin">
+                  <text class="sketch-title" x="42" y="58">Austin</text>
+                  <text class="sketch-note" x="42" y="86">skyline, river, product base</text>
+                  <path class="pencil-ghost" d="M55 445C145 416 218 456 310 430C410 402 496 446 592 414C688 382 760 416 848 394" />
+                  <path class="pencil-ghost" d="M58 472C160 444 248 480 360 456C472 432 568 478 690 446C752 430 800 436 848 420" />
+
+                  <path class="pencil-fill" d="M74 334L104 326L132 334V318L162 308L194 318V296L236 286L276 296V328L320 318L366 328V286L410 276L456 286V304L506 292L554 304V286L596 276L642 286V306L692 296L736 306V332L782 324L824 332V358H74Z" />
+                  <path class="pencil-line" d="M74 358V334L104 326L132 334V318L162 308L194 318V296L236 286L276 296V328L320 318L366 328V286L410 276L456 286V304L506 292L554 304V286L596 276L642 286V306L692 296L736 306V332L782 324L824 332V358" />
+
+                  <path class="pencil-fill" d="M90 326V178L122 166L154 178V326Z" />
+                  <path class="pencil-fill" d="M122 166L142 128L176 142L188 326H154V178Z" />
+                  <path class="pencil-fill" d="M88 178L104 146L142 128L122 166Z" />
+                  <path class="pencil-line" d="M90 326V178L122 166L154 178V326M122 166L142 128L176 142L188 326H154M88 178L104 146L142 128" />
+                  <path class="pencil-detail" d="M104 192H150M104 208H152M104 224H154M104 240H156M104 256H158M104 272H160M104 288H162M104 304H164M122 174V326M140 178V326M154 146V326" />
+                  <path class="pencil-shade" d="M100 184L122 326M112 170L140 326M138 132L176 312M92 196L152 184M92 212L154 200M92 228L156 216" />
+
+                  <path class="pencil-fill" d="M198 326V238H248V326M248 326V220H292V326M292 326V250H342V326" />
+                  <path class="pencil-line" d="M198 326V238H248V326M248 326V220H292V326M292 326V250H342V326" />
+                  <path class="pencil-detail" d="M208 254H238M208 272H238M208 290H238M208 308H238M258 238H282M258 256H282M258 274H282M258 292H282M302 266H332M302 284H332M302 302H332" />
+                  <path class="pencil-shade" d="M202 246L246 326M252 230L290 324M296 258L340 326" />
+
+                  <path class="pencil-fill" d="M376 326L418 172L454 160L494 326Z" />
+                  <path class="pencil-line" d="M376 326L418 172L454 160L494 326M418 172L464 326M454 160L436 326" />
+                  <path class="pencil-detail" d="M410 210L456 196M404 232L464 216M398 254L470 238M392 276L478 260M388 298L484 282M418 188L450 178" />
+                  <path class="pencil-shade" d="M424 176L492 324M412 206L482 326M402 238L472 326M392 270L462 326" />
+
+                  <path class="pencil-fill" d="M520 326V222H560V326M560 326V190H594V326M594 326V238H636V326M636 326V212H674V326" />
+                  <path class="pencil-line" d="M520 326V222H560V326M560 326V190H594V326M594 326V238H636V326M636 326V212H674V326" />
+                  <path class="pencil-detail" d="M530 240H552M530 258H552M530 276H552M530 294H552M568 208H586M568 226H586M568 244H586M568 262H586M604 254H628M604 274H628M604 294H628M644 230H666M644 250H666M644 270H666M644 290H666" />
+
+                  <path class="pencil-fill" d="M704 326V258H736V326M736 326V230H774V326M774 326V278H814V326" />
+                  <path class="pencil-line" d="M704 326V258H736V326M736 326V230H774V326M774 326V278H814V326" />
+                  <path class="pencil-detail" d="M710 274H730M710 292H730M710 310H730M744 248H766M744 266H766M744 284H766M744 302H766M782 294H806M782 310H806" />
+
+                  <path class="pencil-fill" d="M68 376C104 344 150 342 188 370C220 342 270 344 306 374C348 340 416 342 462 374C510 344 570 344 616 376C662 348 730 350 780 378C804 366 830 368 850 382V406H68Z" />
+                  <path class="pencil-line" d="M68 376C104 344 150 342 188 370C220 342 270 344 306 374C348 340 416 342 462 374C510 344 570 344 616 376C662 348 730 350 780 378C804 366 830 368 850 382" />
+                  <path class="pencil-detail" d="M82 388C120 370 154 370 194 390M214 388C252 370 286 372 324 392M342 388C392 366 430 368 474 394M494 390C538 370 576 372 628 396M652 392C704 370 746 372 796 396" />
+                  <path class="pencil-shade" d="M78 398L154 370M118 408L204 374M226 404L306 374M354 408L462 374M506 408L616 376M666 410L780 378" />
+
+                  <path class="pencil-fill" d="M62 408L846 386L850 404L66 430Z" />
+                  <path class="pencil-line" d="M62 408L846 386M66 430L850 404M86 412V430M158 410V428M232 408V426M306 406V424M380 404V422M454 402V420M528 400V418M602 398V416M676 396V414M750 394V412M824 390V408" />
+                  <path class="pencil-detail" d="M78 417L838 394M96 424L830 402" />
+
+                  <path class="pencil-fill" d="M74 448L830 426L842 446L64 472Z" />
+                  <path class="pencil-line" d="M74 448L830 426M64 472L842 446" />
+                  <path class="pencil-line" d="M110 466C150 418 214 416 256 462M272 461C312 418 372 416 414 458M430 456C474 414 538 412 584 452M600 452C644 412 706 410 754 448" />
+                  <path class="pencil-detail" d="M110 466H256M272 461H414M430 456H584M600 452H754M128 454V466M154 442V466M180 436V466M206 442V466M232 454V466M292 450V461M318 438V461M344 432V461M370 438V461M396 450V461M452 446V456M480 432V456M508 426V456M536 432V456M564 446V456M624 442V452M654 428V452M684 424V452M714 430V452M744 444V452" />
+                  <path class="pencil-shade" d="M88 482C172 456 250 494 344 466M374 478C470 450 552 492 660 462M688 474C760 452 806 458 850 444" />
+                  <path class="pencil-shade" d="M100 492L820 462M128 504L760 478M176 512L690 492" />
+                  <path class="pencil-detail" d="M82 392C96 378 112 376 128 386C140 370 164 368 180 384C196 368 222 370 236 388C252 374 276 374 292 390C314 370 346 372 364 392C382 376 410 378 430 394C450 374 482 376 504 396C526 378 560 380 584 400C606 382 638 384 660 402C686 382 724 386 748 406C770 390 806 392 834 410" />
+                  <path class="pencil-shade" d="M100 386L84 406M124 384L104 412M154 382L134 414M184 386L162 416M214 388L194 418M250 386L230 418M284 390L260 420M326 388L300 422M362 392L336 424M402 392L374 424M442 394L414 426M486 394L456 428M530 398L498 430M574 400L540 432M620 402L584 434M668 404L632 436M716 406L678 438M766 406L728 440M812 410L772 442" />
+                  <path class="pencil-detail" d="M108 186L152 176M108 200L154 190M108 214L156 204M108 228L158 218M108 242L160 232M108 256L162 246M108 270L164 260M108 284L166 274M108 298L168 288M108 312L170 302" />
+                  <path class="pencil-detail" d="M204 248L244 238M204 266L244 256M204 284L244 274M204 302L244 292M252 232L288 222M252 250L288 240M252 268L288 258M252 286L288 276M252 304L288 294" />
+                  <path class="pencil-detail" d="M338 282L452 254M334 306L460 276M330 330L470 298M382 238L414 326M412 222L436 326M444 188L462 326" />
+                  <path class="pencil-detail" d="M524 232L558 224M524 248L558 240M524 264L558 256M524 280L558 272M524 296L558 288M564 200L592 194M564 216L592 210M564 232L592 226M564 248L592 242M564 264L592 258M600 248L632 240M600 266L632 258M600 284L632 276M642 222L670 216M642 240L670 234M642 258L670 252M642 276L670 270" />
+                  <path class="pencil-detail" d="M84 414L844 392M84 422L844 400M84 430L844 408M78 452L834 430M74 460L840 438" />
+                  <path class="pencil-shade" d="M116 452L148 466M168 440L208 466M220 436L264 464M300 434L344 460M356 432L404 458M446 430L500 454M512 428L568 452M604 426L660 450M674 424L730 448" />
+                  <path class="pencil-ghost" d="M64 496C122 482 172 500 232 486M260 496C330 478 394 506 468 486M500 496C572 478 642 504 720 484M744 492C788 480 822 480 852 470" />
+                </g>
+
+                <g class="sketch" data-sketch-city="baltimore">
+                  <text class="sketch-title" x="42" y="58">Baltimore</text>
+                  <text class="sketch-note" x="42" y="86">harbor, rowhouses, engineering chapter</text>
+                  <path class="pencil-ghost" d="M58 404C162 382 248 420 352 396C458 370 522 426 632 396C722 370 782 392 846 372" />
+                  <path class="pencil-ghost" d="M58 432C160 410 264 444 368 424C462 404 546 442 646 418C724 399 786 416 848 400" />
+                  <path class="pencil-fill" d="M92 378V286L126 258L160 286V378Z" />
+                  <path class="pencil-fill" d="M160 378V286L196 258L232 286V378Z" />
+                  <path class="pencil-fill" d="M232 378V286L268 258L304 286V378Z" />
+                  <path class="pencil-fill" d="M304 378V286L340 258L376 286V378Z" />
+                  <path class="pencil-line" d="M92 378V286L126 258L160 286V378M160 378V286L196 258L232 286V378M232 378V286L268 258L304 286V378M304 378V286L340 258L376 286V378" />
+                  <path class="pencil-detail" d="M108 312H144M176 312H216M248 312H288M320 312H360M108 342H144M176 342H216M248 342H288M320 342H360M126 258V378M196 258V378M268 258V378M340 258V378" />
+                  <path class="pencil-fill" d="M444 378V250H486V378M486 378V214H530V378M530 378V276H584V378M584 378V236H628V378" />
+                  <path class="pencil-line" d="M444 378V250H486V378M486 378V214H530V378M530 378V276H584V378M584 378V236H628V378" />
+                  <path class="pencil-detail" d="M454 274H476M454 298H476M454 322H476M496 238H520M496 264H520M496 290H520M542 302H574M542 330H574M594 260H618M594 286H618M594 312H618" />
+                  <path class="pencil-line" d="M690 382V250M690 250L788 194M690 250L806 282M742 220V382M742 220L810 184M742 220L828 260" />
+                  <path class="pencil-detail" d="M704 242L754 382M728 226L778 382M764 208L814 282M710 272H806M690 304H792" />
+                  <path class="pencil-fill" d="M664 402L824 402L792 420H688Z" />
+                  <path class="pencil-shade" d="M670 410L816 410M692 421L790 421M712 432L770 432" />
+                  <path class="pencil-shade" d="M90 448C168 434 230 456 308 444M450 448C540 430 612 462 708 440M740 438C785 432 816 438 850 428" />
+                  <path class="pencil-ghost" d="M80 462L850 462M112 474L238 456M292 474L420 454M482 470L610 450M660 468L824 446" />
+                  <path class="pencil-fill" d="M72 398L386 384L390 404L76 420Z" />
+                  <path class="pencil-line" d="M72 398L386 384M76 420L390 404M98 398V418M136 396V416M174 394V414M212 392V412M250 390V410M288 388V408M326 386V406M364 384V404" />
+                  <path class="pencil-detail" d="M102 282L126 258M138 282L126 258M170 282L196 258M218 282L196 258M242 282L268 258M292 282L268 258M314 282L340 258M364 282L340 258" />
+                  <path class="pencil-detail" d="M104 302L154 292M104 326L154 316M104 350L154 340M172 302L222 292M172 326L222 316M172 350L222 340M244 302L294 292M244 326L294 316M244 350L294 340M316 302L366 292M316 326L366 316M316 350L366 340" />
+                  <path class="pencil-shade" d="M94 286L160 376M116 266L184 378M162 286L232 376M188 264L256 378M234 286L304 376M260 264L328 378M306 286L376 376M332 264L396 378" />
+                  <path class="pencil-fill" d="M412 378V300H442V378M632 378V296H662V378M662 378V260H700V378" />
+                  <path class="pencil-line" d="M412 378V300H442V378M632 378V296H662V378M662 378V260H700V378" />
+                  <path class="pencil-detail" d="M418 318H436M418 340H436M418 362H436M638 314H656M638 338H656M638 362H656M670 280H694M670 304H694M670 328H694M670 352H694" />
+                  <path class="pencil-detail" d="M450 260L482 250M450 284L482 274M450 308L482 298M450 332L482 322M492 224L526 214M492 248L526 238M492 272L526 262M492 296L526 286M536 286L582 276M536 310L582 300M536 334L582 324M590 248L626 238M590 272L626 262M590 296L626 286M590 320L626 310" />
+                  <path class="pencil-line" d="M708 380C728 356 758 356 782 380M728 380C748 360 776 360 800 380" />
+                  <path class="pencil-detail" d="M690 250L742 382M714 236L768 382M742 220L806 282M758 212L828 260M690 326H814M690 350H806" />
+                  <path class="pencil-fill" d="M96 436C128 418 168 420 198 440C232 416 278 420 310 444C344 418 396 424 426 448C468 420 526 426 560 452C602 424 666 430 704 454C742 430 800 434 838 458V474H96Z" />
+                  <path class="pencil-line" d="M96 436C128 418 168 420 198 440C232 416 278 420 310 444C344 418 396 424 426 448C468 420 526 426 560 452C602 424 666 430 704 454C742 430 800 434 838 458" />
+                  <path class="pencil-shade" d="M108 448L140 426M146 456L184 426M218 452L256 424M268 460L306 430M342 458L386 428M398 466L438 438M468 462L516 430M528 470L572 440M606 468L656 436M668 474L716 446M742 470L800 438" />
+                  <path class="pencil-detail" d="M74 484C152 462 214 492 298 470M340 486C430 460 506 496 604 468M640 486C718 464 778 472 846 454M92 498L826 468M144 510L760 486" />
+                </g>
+
+                <g class="sketch" data-sketch-city="memphis">
+                  <text class="sketch-title" x="42" y="58">Memphis</text>
+                  <text class="sketch-note" x="42" y="86">river bridge, pyramid, graduate work</text>
+                  <path class="pencil-ghost" d="M62 402C138 384 208 420 286 402C364 384 430 420 512 400C604 378 694 408 842 382" />
+                  <path class="pencil-ghost" d="M62 436C150 416 232 452 322 432C428 408 520 454 632 426C716 406 776 420 844 404" />
+                  <path class="pencil-fill" d="M84 338C188 210 332 210 448 338Z" />
+                  <path class="pencil-line" d="M84 338C188 210 332 210 448 338M84 338H448M144 338C210 260 322 260 388 338" />
+                  <path class="pencil-detail" d="M106 338L106 384M164 338L164 384M222 338L222 384M280 338L280 384M338 338L338 384M396 338L396 384M124 316L176 338M156 286L222 338M214 260L278 338M284 260L340 338M350 286L404 338" />
+                  <path class="pencil-shade" d="M104 350H426M104 366H426M104 382H426" />
+                  <path class="pencil-fill" d="M552 384L676 156L790 384Z" />
+                  <path class="pencil-line" d="M552 384L676 156L790 384Z" />
+                  <path class="pencil-detail" d="M592 384L676 224L752 384M620 330H728M640 292H706M660 250H688M676 156V384" />
+                  <path class="pencil-shade" d="M602 370L744 370M620 340L730 340M638 310L716 310M656 280L702 280" />
+                  <path class="pencil-fill" d="M482 384V308H528V384M808 384V300H852V384" />
+                  <path class="pencil-line" d="M482 384V308H528V384M808 384V300H852V384" />
+                  <path class="pencil-detail" d="M488 330H522M488 354H522M814 322H846M814 348H846M814 372H846" />
+                  <path class="pencil-ghost" d="M88 456C190 438 260 468 350 450M468 456C560 432 644 470 744 448M80 474C200 450 314 486 430 462M498 474C608 448 710 478 844 452" />
+                  <path class="pencil-line" d="M78 362L454 350M92 384L448 372M108 362V394M164 360V392M220 358V390M276 356V388M332 354V386M388 352V384M444 350V382" />
+                  <path class="pencil-detail" d="M96 338C150 284 204 254 268 250C332 248 384 278 434 338M126 322C182 290 238 278 294 282C344 286 388 306 426 338" />
+                  <path class="pencil-shade" d="M108 334L172 386M150 300L220 386M198 276L270 388M252 260L326 388M310 268L382 386M360 296L430 384" />
+                  <path class="pencil-fill" d="M466 384V330H500V384M526 384V292H560V384M790 384V328H812V384" />
+                  <path class="pencil-line" d="M466 384V330H500V384M526 384V292H560V384M790 384V328H812V384" />
+                  <path class="pencil-detail" d="M472 346H494M472 366H494M532 312H554M532 334H554M532 356H554M796 346H806M796 366H806" />
+                  <path class="pencil-detail" d="M580 366L760 366M590 346L750 346M600 326L740 326M612 306L730 306M626 286L716 286M642 266L704 266" />
+                  <path class="pencil-shade" d="M560 384L676 156M584 384L676 196M608 384L676 236M632 384L676 276M656 384L676 316M680 164L790 384M692 206L774 384M706 248L758 384M720 290L742 384" />
+                  <path class="pencil-detail" d="M676 156C694 204 700 246 694 292C688 332 676 362 656 384M676 156C658 204 652 246 658 292C664 332 676 362 696 384" />
+                  <path class="pencil-fill" d="M88 416C138 390 212 394 268 418C328 388 418 392 488 420C554 390 650 396 718 424C774 402 824 408 850 430V452H88Z" />
+                  <path class="pencil-line" d="M88 416C138 390 212 394 268 418C328 388 418 392 488 420C554 390 650 396 718 424C774 402 824 408 850 430" />
+                  <path class="pencil-shade" d="M96 428L160 398M140 438L216 400M250 430L328 398M310 444L400 402M476 432L560 400M536 446L642 404M704 438L788 410M760 450L840 424" />
+                  <path class="pencil-detail" d="M74 490C170 462 262 500 364 472M394 494C504 466 600 504 712 474M734 490C786 474 822 474 850 462M98 508L810 480M148 520L752 496" />
+                </g>
+
+                <g class="sketch" data-sketch-city="hyderabad">
+                  <text class="sketch-title" x="42" y="58">Hyderabad</text>
+                  <text class="sketch-note" x="42" y="86">Charminar-inspired arches, engineering roots</text>
+                  <path class="pencil-ghost" d="M150 390H748M170 414C272 398 362 426 464 406C562 388 648 420 736 400M138 442C260 414 378 454 498 430C600 408 694 442 778 420" />
+                  <path class="pencil-fill" d="M230 390V180C230 144 266 122 300 140C326 154 334 180 334 180V390Z" />
+                  <path class="pencil-fill" d="M666 390V180C666 144 630 122 596 140C570 154 562 180 562 180V390Z" />
+                  <path class="pencil-line" d="M230 390V180C230 144 266 122 300 140C326 154 334 180 334 180V390M666 390V180C666 144 630 122 596 140C570 154 562 180 562 180V390" />
+                  <path class="pencil-fill" d="M318 390V196H582V390Z" />
+                  <path class="pencil-line" d="M318 390V196H582V390M348 196C366 166 534 166 552 196M296 196H604" />
+                  <path class="pencil-fill" d="M372 390V302C372 258 408 224 450 224C492 224 528 258 528 302V390Z" />
+                  <path class="pencil-line" d="M372 390V302C372 258 408 224 450 224C492 224 528 258 528 302V390" />
+                  <path class="pencil-line" d="M404 390V338C404 312 424 292 450 292C476 292 496 312 496 338V390" />
+                  <path class="pencil-line" d="M210 180H354M546 180H690M286 136V96M614 136V96M276 96C276 80 294 70 308 82C320 92 320 96 320 96M604 96C604 80 622 70 636 82C648 92 648 96 648 96" />
+                  <path class="pencil-detail" d="M254 220H310M254 250H310M254 280H310M254 310H310M254 340H310M590 220H646M590 250H646M590 280H646M590 310H646M590 340H646" />
+                  <path class="pencil-detail" d="M342 218H558M342 252H558M342 286H558M342 320H558M342 354H558" />
+                  <path class="pencil-shade" d="M238 184L326 390M656 184L570 390M344 204L514 390M556 204L386 390M396 232L508 390M504 232L392 390" />
+                  <path class="pencil-detail" d="M232 154C262 134 302 134 334 154M566 154C596 134 636 134 668 154M330 196C372 182 528 182 570 196" />
+                  <path class="pencil-ghost" d="M188 466L746 466M218 450L320 430M350 456L470 430M500 452L620 428M648 452L760 430" />
+                  <path class="pencil-fill" d="M196 390V310H230V390M670 390V310H704V390M148 390V338H188V390M710 390V338H750V390" />
+                  <path class="pencil-line" d="M196 390V310H230V390M670 390V310H704V390M148 390V338H188V390M710 390V338H750V390" />
+                  <path class="pencil-detail" d="M156 352H180M156 370H180M204 326H222M204 348H222M204 370H222M678 326H696M678 348H696M678 370H696M718 352H742M718 370H742" />
+                  <path class="pencil-line" d="M280 180C280 160 296 146 316 146C336 146 352 160 352 180M548 180C548 160 564 146 584 146C604 146 620 160 620 180M330 196C346 162 554 162 570 196" />
+                  <path class="pencil-detail" d="M322 228C350 214 382 214 410 228M490 228C518 214 550 214 578 228M360 262C386 244 416 244 442 262M458 262C484 244 514 244 540 262" />
+                  <path class="pencil-detail" d="M390 304C404 278 426 264 450 264C474 264 496 278 510 304M412 336C420 318 434 308 450 308C466 308 480 318 488 336" />
+                  <path class="pencil-shade" d="M250 218L318 390M270 250L318 390M294 282L318 390M650 218L582 390M630 250L582 390M606 282L582 390" />
+                  <path class="pencil-detail" d="M266 208L318 194M266 238L318 224M266 268L318 254M266 298L318 284M266 328L318 314M582 194L634 208M582 224L634 238M582 254L634 268M582 284L634 298M582 314L634 328" />
+                  <path class="pencil-detail" d="M360 216L540 216M360 236L540 236M360 256L540 256M360 276L540 276M360 296L540 296M360 316L540 316M360 336L540 336M360 356L540 356" />
+                  <path class="pencil-line" d="M178 410C238 390 316 392 382 410C430 394 492 394 544 410C612 390 690 396 756 416" />
+                  <path class="pencil-shade" d="M198 420L268 396M250 428L334 398M374 424L450 400M474 428L550 402M592 426L676 400M650 434L752 408" />
+                  <path class="pencil-ghost" d="M146 482C246 454 356 492 466 462M500 478C608 450 704 480 790 456M180 500L748 474M224 516L690 492" />
+                </g>
+
+                <g class="sketch" data-sketch-city="london">
+                  <text class="sketch-title" x="42" y="58">London</text>
+                  <text class="sketch-note" x="42" y="86">Thames, bridge, clock tower, skyline study</text>
+                  <path class="pencil-ghost" d="M62 432C152 404 238 444 342 418C438 394 520 444 628 414C720 390 780 404 846 382" />
+                  <path class="pencil-ghost" d="M72 462C174 432 270 472 382 448C484 426 578 472 694 440C762 422 810 426 850 410" />
+
+                  <path class="pencil-fill" d="M114 384V218H178V384M152 218V170M138 170C138 146 166 138 182 158C192 170 190 178 190 178M112 218H180" />
+                  <path class="pencil-line" d="M114 384V218H178V384M152 218V170M138 170C138 146 166 138 182 158C192 170 190 178 190 178M112 218H180" />
+                  <path class="pencil-detail" d="M126 236H168M126 258H168M126 280H168M126 302H168M126 324H168M126 346H168M126 368H168M134 236V384M152 218V384M170 236V384" />
+                  <path class="pencil-shade" d="M118 232L176 384M132 214L180 368M150 178L178 330" />
+
+                  <path class="pencil-fill" d="M260 384V248H318V384M318 384V222H374V384M374 384V268H430V384M430 384V238H484V384M484 384V286H536V384" />
+                  <path class="pencil-line" d="M260 384V248H318V384M318 384V222H374V384M374 384V268H430V384M430 384V238H484V384M484 384V286H536V384" />
+                  <path class="pencil-detail" d="M270 266H306M270 286H306M270 306H306M270 326H306M270 346H306M270 366H306M328 240H364M328 260H364M328 280H364M328 300H364M328 320H364M328 340H364M328 360H364M384 286H420M384 306H420M384 326H420M384 346H420M384 366H420M440 256H474M440 278H474M440 300H474M440 322H474M440 344H474M440 366H474M494 302H526M494 322H526M494 342H526M494 362H526" />
+                  <path class="pencil-shade" d="M262 258L318 384M318 230L374 384M374 276L430 384M430 248L484 384M486 294L536 384" />
+
+                  <path class="pencil-fill" d="M590 386V170H648V386M584 170H654M596 146H642M604 124H634M618 94V124" />
+                  <path class="pencil-line" d="M590 386V170H648V386M584 170H654M596 146H642M604 124H634M618 94V124" />
+                  <circle class="pencil-detail" cx="619" cy="208" r="18" />
+                  <path class="pencil-detail" d="M619 190V226M601 208H637M602 246H636M602 270H636M602 294H636M602 318H636M602 342H636M602 366H636M602 246V386M618 226V386M636 246V386" />
+                  <path class="pencil-shade" d="M594 174L648 386M606 146L646 330M618 124L640 282" />
+
+                  <path class="pencil-fill" d="M690 384C700 302 748 248 806 222C834 258 840 316 820 384Z" />
+                  <path class="pencil-line" d="M690 384C700 302 748 248 806 222C834 258 840 316 820 384" />
+                  <path class="pencil-detail" d="M714 374C722 316 754 274 802 248M740 382C746 326 772 292 818 264M766 384C774 334 796 306 824 286M700 328H828M710 304H822M728 282H814" />
+
+                  <path class="pencil-fill" d="M76 408H842L828 432H90Z" />
+                  <path class="pencil-line" d="M76 408H842M90 432H828M104 408V432M168 408V432M232 408V432M296 408V432M360 408V432M424 408V432M488 408V432M552 408V432M616 408V432M680 408V432M744 408V432M808 408V432" />
+                  <path class="pencil-line" d="M118 432C162 380 228 380 272 432M294 432C338 382 404 382 448 432M470 432C514 382 580 382 624 432M646 432C690 382 756 382 800 432" />
+                  <path class="pencil-detail" d="M118 432H272M294 432H448M470 432H624M646 432H800M142 418V432M174 398V432M206 390V432M238 404V432M318 418V432M350 398V432M382 390V432M414 404V432M494 418V432M526 398V432M558 390V432M590 404V432M670 418V432M702 398V432M734 390V432M766 404V432" />
+
+                  <path class="pencil-fill" d="M92 454C136 430 190 432 232 454C282 428 350 432 402 456C460 428 540 434 600 458C662 432 742 436 826 462V478H92Z" />
+                  <path class="pencil-line" d="M92 454C136 430 190 432 232 454C282 428 350 432 402 456C460 428 540 434 600 458C662 432 742 436 826 462" />
+                  <path class="pencil-shade" d="M104 466L158 438M154 474L218 440M260 466L326 436M324 478L398 446M456 470L532 438M530 482L610 450M662 474L746 444M730 486L822 456" />
+                  <path class="pencil-ghost" d="M74 492C168 462 258 500 362 474M400 496C510 464 620 508 740 474M112 510L814 480M172 522L740 500" />
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <section class="detail-panel" aria-live="polite">
+            <p class="detail-panel__kicker" id="city-kicker">Current base</p>
+            <h2 class="detail-panel__title" id="city-title">Austin, TX</h2>
+            <p class="detail-panel__meta" id="city-meta">2020 - Present</p>
+            <p class="detail-panel__copy" id="city-copy">
+              AI product engineering, BNPL quality strategy, and practical LLM workflows at PayPal.
+            </p>
+            <div class="legend">
+              <span class="legend__item" id="city-sketch-note">Skyline, river, and Capitol-inspired dome</span>
+              <span class="legend__item">Hover a city</span>
+              <span class="legend__item">Click to pin</span>
+            </div>
+          </section>
+        </aside>
+
+        <div class="timeline" aria-label="Example city mentions">
+          <article class="moment">
+            <div class="moment__date">Current</div>
+            <p class="moment__text">
+              Based in
+              <button class="city-chip is-active" data-city="austin">Austin, TX</button>
+              while working on AI product engineering and BNPL release-readiness workflows.
+            </p>
+          </article>
+          <article class="moment">
+            <div class="moment__date">2014 - 2020</div>
+            <p class="moment__text">
+              Started the PayPal Credit engineering chapter in
+              <button class="city-chip" data-city="baltimore">Baltimore, MD</button>,
+              building backend systems and test automation.
+            </p>
+          </article>
+          <article class="moment">
+            <div class="moment__date">2011 - 2013</div>
+            <p class="moment__text">
+              Studied computer engineering in
+              <button class="city-chip" data-city="memphis">Memphis, TN</button>,
+              with coursework and research around AI, neural networks, and pattern recognition.
+            </p>
+          </article>
+          <article class="moment">
+            <div class="moment__date">2007 - 2011</div>
+            <p class="moment__text">
+              Built the engineering foundation in
+              <button class="city-chip" data-city="hyderabad">Hyderabad, India</button>
+              before moving into fintech and AI product work.
+            </p>
+          </article>
+          <article class="moment">
+            <div class="moment__date">Concept</div>
+            <p class="moment__text">
+              A non-resume visual test for
+              <button class="city-chip" data-city="london">London, UK</button>
+              using a more detailed city-sketch treatment.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script is:inline define:vars={{ cities }}>
+      const cityData = new Map(cities.map((city) => [city.id, city]));
+      const triggers = document.querySelectorAll('[data-city]');
+      const sketches = document.querySelectorAll('[data-sketch-city]');
+      const title = document.getElementById('city-title');
+      const kicker = document.getElementById('city-kicker');
+      const meta = document.getElementById('city-meta');
+      const copy = document.getElementById('city-copy');
+      const sketchNote = document.getElementById('city-sketch-note');
+
+      function activateCity(cityId) {
+        const city = cityData.get(cityId);
+        if (!city) return;
+
+        triggers.forEach((trigger) => {
+          trigger.classList.toggle('is-active', trigger.dataset.city === cityId);
+        });
+
+        sketches.forEach((sketch) => {
+          sketch.classList.toggle('is-visible', sketch.dataset.sketchCity === cityId);
+        });
+
+        title.textContent = city.label;
+        kicker.textContent = city.chapter;
+        meta.textContent = city.stat;
+        copy.textContent = city.detail;
+        sketchNote.textContent = city.sketchNote;
+      }
+
+      triggers.forEach((trigger) => {
+        trigger.addEventListener('mouseenter', () => activateCity(trigger.dataset.city));
+        trigger.addEventListener('focus', () => activateCity(trigger.dataset.city));
+        trigger.addEventListener('click', () => activateCity(trigger.dataset.city));
+      });
+    </script>
+  </body>
+</html>

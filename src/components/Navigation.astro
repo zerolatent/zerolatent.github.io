@@ -1,0 +1,61 @@
+---
+import { profile } from '../data/profile';
+
+const navLinks = [
+  { name: 'Experience', href: '#experience' },
+  { name: 'Skills', href: '#skills' },
+  { name: 'Education', href: '#education' },
+  { name: 'Contact', href: '#contact' },
+];
+---
+
+<nav class="fixed top-0 left-0 right-0 z-50 glass">
+  <div class="max-w-5xl mx-auto px-6 py-3">
+    <div class="flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-accent)] flex items-center justify-center font-bold text-white text-sm">
+          SP
+        </div>
+      </a>
+
+      <div class="hidden md:flex items-center gap-6">
+        {navLinks.map((link) => (
+          <a href={link.href} class="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors">
+            {link.name}
+          </a>
+        ))}
+        <a href={profile.resumePath} class="text-sm px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-lg transition-all" download>
+          Resume
+        </a>
+      </div>
+
+      <button id="mobile-menu-btn" class="md:hidden p-2 text-[var(--color-text-secondary)]">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden mt-3 pb-3 border-t border-[var(--color-border)] pt-3">
+      <div class="flex flex-col gap-2">
+        {navLinks.map((link) => (
+          <a href={link.href} class="px-3 py-2 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] rounded-lg transition-all">
+            {link.name}
+          </a>
+        ))}
+        <a href={profile.resumePath} class="mt-2 text-center px-3 py-2 bg-[var(--color-primary)] text-white rounded-lg" download>
+          Resume
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+    document.getElementById('mobile-menu')?.classList.toggle('hidden');
+  });
+  document.getElementById('mobile-menu')?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => document.getElementById('mobile-menu')?.classList.add('hidden'));
+  });
+</script>

@@ -1,0 +1,193 @@
+---
+interface Props {
+  cityId: string;
+}
+
+const { cityId } = Astro.props;
+---
+
+<div class="city-card-sketch" aria-hidden="true">
+  <svg viewBox="0 0 900 520" focusable="false">
+    <defs>
+      <filter id="card-rough-pencil" x="-8%" y="-8%" width="116%" height="116%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.6" />
+      </filter>
+    </defs>
+
+    <g class:list={['city-drawing', cityId === 'austin' && 'is-visible']}>
+      <path class="draw-light" d="M64 430C144 402 230 446 330 416C430 386 516 432 616 400C706 374 776 402 846 384" />
+      <path class="draw-fill" d="M88 376V292H128V256H168V376M186 376V246H226V376M242 376V286H286V376M318 376V306H404V376M326 306C340 274 382 274 396 306M356 276V238M442 376V268H486V376M520 376V304H566V376M598 376V236H646V376M690 376V290H736V376M754 376V316H816V376" />
+      <path class="draw-line" d="M88 376V292H128V256H168V376M128 256V226H154V256M186 376V246H226V376M242 376V286H286V376M318 376V306H404V376M326 306C340 274 382 274 396 306M320 306H404M356 276V238M348 238H374M442 376V268H486V376M520 376V304H566V376M598 376V236H646V376M690 376V290H736V376M754 376V316H816V376" />
+      <path class="draw-detail" d="M102 310H154M102 328H154M102 346H154M102 364H154M196 266H216M196 286H216M196 306H216M196 326H216M196 346H216M254 304H274M254 324H274M254 344H274M336 328H388M336 348H388M344 376V326M378 376V326M452 286H476M452 310H476M452 334H476M608 256H636M608 280H636M608 304H636M608 328H636M700 308H728M700 332H728M764 334H806M764 352H806" />
+      <path class="draw-fill" d="M76 400C124 366 178 370 216 398C264 366 332 372 378 402C438 366 520 374 574 404C636 372 730 378 842 410V432H76Z" />
+      <path class="draw-line" d="M76 400C124 366 178 370 216 398C264 366 332 372 378 402C438 366 520 374 574 404C636 372 730 378 842 410M72 430L844 406" />
+      <path class="draw-line" d="M96 462C142 414 208 414 254 458M280 458C326 414 392 414 438 454M464 454C510 414 576 414 622 450M648 450C694 414 760 414 806 446" />
+      <path class="draw-hatch" d="M108 420L156 386M176 430L232 392M300 430L370 394M470 430L560 398M650 430L780 406M118 466L806 436M148 486L730 462" />
+    </g>
+
+    <g class:list={['city-drawing', cityId === 'baltimore' && 'is-visible']}>
+      <path class="draw-light" d="M58 420C164 392 258 432 366 406C468 382 548 430 654 402C734 382 794 398 848 384" />
+      <path class="draw-fill" d="M100 376V286L136 258L172 286V376M172 376V286L210 258L248 286V376M248 376V286L286 258L324 286V376M448 376V246H490V376M490 376V212H532V376M532 376V278H586V376M586 376V236H630V376" />
+      <path class="draw-line" d="M100 376V286L136 258L172 286V376M172 376V286L210 258L248 286V376M248 376V286L286 258L324 286V376M448 376V246H490V376M490 376V212H532V376M532 376V278H586V376M586 376V236H630V376" />
+      <path class="draw-line" d="M700 380V250M700 250L800 194M700 250L822 282M754 220V380M754 220L824 184M754 220L842 260" />
+      <path class="draw-detail" d="M116 312H156M188 312H230M264 312H306M116 342H156M188 342H230M264 342H306M458 272H480M500 238H522M544 306H576M598 264H620M714 250L780 380M740 224L804 380M700 326H824" />
+      <path class="draw-fill" d="M82 414L842 392L822 424H102Z" />
+      <path class="draw-line" d="M82 414L842 392M102 424H822M110 424C152 392 214 394 254 424M282 424C324 392 386 394 426 424M456 424C500 392 562 394 606 424M636 424C678 392 740 394 784 424" />
+      <path class="draw-hatch" d="M106 286L172 376M176 286L248 376M252 286L324 376M454 260L490 376M494 224L532 376M536 286L586 376M590 246L630 376M102 452C190 428 270 462 360 440M450 452C540 430 626 460 724 436M760 446L846 424" />
+    </g>
+
+    <g class:list={['city-drawing', cityId === 'memphis' && 'is-visible']}>
+      <path class="draw-light" d="M62 422C146 396 230 434 322 410C426 384 520 432 632 404C724 382 786 398 844 382" />
+      <path class="draw-fill" d="M86 338C194 214 336 214 452 338Z" />
+      <path class="draw-line" d="M86 338C194 214 336 214 452 338M86 338H452M146 338C214 260 324 260 392 338" />
+      <path class="draw-fill" d="M552 384L676 156L790 384Z" />
+      <path class="draw-line" d="M552 384L676 156L790 384M596 384L676 224L750 384M676 156V384" />
+      <path class="draw-detail" d="M110 338V386M168 338V386M226 338V386M284 338V386M342 338V386M400 338V386M118 316L176 338M158 286L224 338M216 260L280 338M286 260L342 338M354 286L408 338M612 338H738M634 300H716M656 260H696M488 330H530M812 324H846" />
+      <path class="draw-fill" d="M88 416C142 392 216 396 272 418C334 390 418 396 486 422C554 392 650 400 718 426C770 406 824 410 850 430V450H88Z" />
+      <path class="draw-line" d="M88 416C142 392 216 396 272 418C334 390 418 396 486 422C554 392 650 400 718 426C770 406 824 410 850 430" />
+      <path class="draw-hatch" d="M108 334L180 390M158 286L228 390M220 260L292 390M292 264L364 390M604 370L744 370M620 340L732 340M640 306L714 306M660 274L698 274M102 456C198 430 280 468 380 446M470 456C570 430 650 468 760 442M100 490L820 458" />
+    </g>
+
+    <g class:list={['city-drawing', cityId === 'hyderabad' && 'is-visible']}>
+      <path class="draw-light" d="M150 390H748M170 414C272 398 362 426 464 406C562 388 648 420 736 400" />
+      <path class="draw-fill" d="M230 390V180C230 144 266 122 300 140C326 154 334 180 334 180V390ZM666 390V180C666 144 630 122 596 140C570 154 562 180 562 180V390ZM318 390V196H582V390Z" />
+      <path class="draw-line" d="M230 390V180C230 144 266 122 300 140C326 154 334 180 334 180V390M666 390V180C666 144 630 122 596 140C570 154 562 180 562 180V390M318 390V196H582V390M348 196C366 166 534 166 552 196M296 196H604" />
+      <path class="draw-fill" d="M372 390V302C372 258 408 224 450 224C492 224 528 258 528 302V390Z" />
+      <path class="draw-line" d="M372 390V302C372 258 408 224 450 224C492 224 528 258 528 302V390M404 390V338C404 312 424 292 450 292C476 292 496 312 496 338V390M210 180H354M546 180H690M286 136V96M614 136V96" />
+      <path class="draw-detail" d="M254 220H310M254 250H310M254 280H310M254 310H310M590 220H646M590 250H646M590 280H646M590 310H646M342 218H558M342 252H558M342 286H558M342 320H558M342 354H558" />
+      <path class="draw-hatch" d="M238 184L326 390M656 184L570 390M344 204L514 390M556 204L386 390M396 232L508 390M504 232L392 390M180 500L748 474M224 516L690 492" />
+    </g>
+
+    <g class:list={['city-drawing', cityId === 'london' && 'is-visible']}>
+      <path class="draw-light" d="M62 432C152 404 238 444 342 418C438 394 520 444 628 414C720 390 780 404 846 382" />
+      <path class="draw-fill" d="M114 384V218H178V384M152 218V170M260 384V248H318V384M318 384V222H374V384M374 384V268H430V384M430 384V238H484V384M590 386V170H648V386M690 384C700 302 748 248 806 222C834 258 840 316 820 384Z" />
+      <path class="draw-line" d="M114 384V218H178V384M152 218V170M138 170C138 146 166 138 182 158M260 384V248H318V384M318 384V222H374V384M374 384V268H430V384M430 384V238H484V384M590 386V170H648V386M584 170H654M596 146H642M604 124H634M618 94V124M690 384C700 302 748 248 806 222C834 258 840 316 820 384" />
+      <circle class="draw-detail" cx="619" cy="208" r="18" />
+      <path class="draw-detail" d="M126 236H168M126 258H168M126 280H168M126 302H168M270 266H306M270 286H306M270 306H306M328 240H364M328 260H364M328 280H364M602 246H636M602 270H636M602 294H636M619 190V226M601 208H637M714 374C722 316 754 274 802 248M740 382C746 326 772 292 818 264M700 328H828M710 304H822" />
+      <path class="draw-line" d="M76 408H842M90 432H828M118 432C162 380 228 380 272 432M294 432C338 382 404 382 448 432M470 432C514 382 580 382 624 432M646 432C690 382 756 382 800 432" />
+      <path class="draw-hatch" d="M104 466L158 438M154 474L218 440M260 466L326 436M324 478L398 446M456 470L532 438M530 482L610 450M662 474L746 444M730 486L822 456M112 510L814 480" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .city-card-sketch {
+    position: absolute;
+    right: -8%;
+    top: 1.15rem;
+    z-index: 0;
+    width: min(40%, 390px);
+    min-width: 270px;
+    color: rgba(148, 163, 184, 0.23);
+    opacity: 0.76;
+    pointer-events: none;
+    transform: rotate(-1.5deg);
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.2) 18%,
+      rgba(0, 0, 0, 0.88) 48%,
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.2) 18%,
+      rgba(0, 0, 0, 0.88) 48%,
+      #000 100%
+    );
+  }
+
+  :global([data-theme='light']) .city-card-sketch {
+    color: rgba(15, 23, 42, 0.16);
+    opacity: 0.76;
+  }
+
+  .city-card-sketch svg {
+    display: block;
+    width: 100%;
+  }
+
+  .city-drawing {
+    display: none;
+  }
+
+  .city-drawing.is-visible {
+    display: block;
+  }
+
+  .draw-line,
+  .draw-detail,
+  .draw-hatch,
+  .draw-light,
+  .draw-fill {
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .draw-line {
+    fill: none;
+    stroke-width: 1.65;
+    filter: url(#card-rough-pencil);
+  }
+
+  .draw-detail {
+    fill: none;
+    stroke-width: 0.95;
+    opacity: 0.56;
+  }
+
+  .draw-hatch,
+  .draw-light {
+    fill: none;
+    stroke-width: 0.85;
+    opacity: 0.42;
+  }
+
+  .draw-light {
+    opacity: 0.28;
+  }
+
+  .draw-fill {
+    fill: currentColor;
+    fill-opacity: 0.06;
+    stroke-width: 0.95;
+  }
+
+  :global(.experience-card),
+  :global(.education-card) {
+    overflow: hidden;
+  }
+
+  :global(.experience-card > :not(.city-card-sketch)),
+  :global(.education-card > :not(.city-card-sketch)) {
+    position: relative;
+    z-index: 1;
+  }
+
+  :global(.city-inline) {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 0.4rem;
+    padding: 0.2rem 0.42rem;
+    border: 1px solid var(--border);
+    background: rgba(6, 182, 212, 0.08);
+    color: var(--primary);
+    font-size: 0.78rem;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 560px) {
+    .city-card-sketch {
+      right: -30%;
+      top: 1.25rem;
+      width: 64%;
+      min-width: 220px;
+      opacity: 0.36;
+    }
+  }
+</style>

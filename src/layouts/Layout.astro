@@ -1,0 +1,220 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Siddartha Posam - Technical Leader & Product Manager" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Siddartha Posam" />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <title>{title}</title>
+  </head>
+  <body class="antialiased">
+    <!-- Topographic Contour Background -->
+    <div class="topo-background" id="topo-bg">
+      <!-- Atmospheric gradient base -->
+      <div class="topo-atmosphere"></div>
+
+      <!-- Noise texture for organic feel -->
+      <div class="topo-noise"></div>
+
+      <!-- Layer 1: Large flowing contours (back) -->
+      <div class="topo-layer topo-layer-1 topo-depth-1">
+        <svg class="topo-svg topo-svg-large" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="gradient-1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0ea5e9" />
+              <stop offset="50%" stop-color="#6366f1" />
+              <stop offset="100%" stop-color="#0ea5e9" />
+            </linearGradient>
+            <linearGradient id="gradient-2" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#6366f1" />
+              <stop offset="100%" stop-color="#0ea5e9" />
+            </linearGradient>
+          </defs>
+          <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Outer flowing contours -->
+            <path class="topo-detail" stroke-width="0.5" stroke-opacity="0.08" d="M-100,200 Q150,100 350,180 Q550,260 700,150 Q850,40 1000,120 Q1150,200 1200,350"/>
+            <path class="topo-detail" stroke-width="0.5" stroke-opacity="0.1" d="M-50,280 Q180,160 380,250 Q580,340 720,220 Q860,100 980,200 Q1100,300 1150,400"/>
+            <path class="topo-detail" stroke-width="0.5" stroke-opacity="0.07" d="M0,350 Q200,220 420,320 Q640,420 780,290 Q920,160 1050,280 Q1180,400 1200,500"/>
+            <path class="topo-detail" stroke-width="0.5" stroke-opacity="0.09" d="M-100,450 Q150,300 400,420 Q650,540 820,380 Q990,220 1100,380 Q1210,540 1250,650"/>
+            <path class="topo-detail" stroke-width="0.5" stroke-opacity="0.06" d="M-50,550 Q200,400 450,520 Q700,640 870,480 Q1040,320 1150,480 Q1260,640 1300,750"/>
+            <!-- Center island formation -->
+            <path class="topo-detail" stroke-width="0.8" stroke-opacity="0.12" d="M350,400 Q400,350 500,380 Q600,410 650,480 Q700,550 650,620 Q600,690 500,700 Q400,710 350,650 Q300,590 320,510 Q340,430 350,400"/>
+            <path class="topo-detail" stroke-width="0.6" stroke-opacity="0.1" d="M380,430 Q420,390 500,410 Q580,430 620,490 Q660,550 630,600 Q600,650 520,660 Q440,670 400,620 Q360,570 370,510 Q380,450 380,430"/>
+            <path class="topo-detail" stroke-width="0.5" stroke-opacity="0.08" d="M420,470 Q450,440 510,455 Q570,470 590,515 Q610,560 590,595 Q570,630 520,640 Q470,650 440,610 Q410,570 415,530 Q420,490 420,470"/>
+            <path class="topo-detail" stroke-width="0.4" stroke-opacity="0.06" d="M460,510 Q480,490 520,500 Q560,510 570,545 Q580,580 560,600 Q540,620 510,620 Q480,620 465,590 Q450,560 455,535 Q460,510 460,510"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Layer 2: Medium contours with glow -->
+      <div class="topo-layer topo-layer-2 topo-depth-2">
+        <svg class="topo-svg topo-svg-medium" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+          <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Glowing accent lines -->
+            <path class="topo-glow-line topo-glow-line-1" d="M100,600 Q250,500 450,580 Q650,660 800,550 Q950,440 1000,520"/>
+            <path class="topo-glow-line topo-glow-line-2" d="M0,700 Q200,580 420,680 Q640,780 820,650 Q1000,520 1100,620"/>
+            <path class="topo-glow-line topo-glow-line-3" d="M50,800 Q280,680 500,780 Q720,880 900,750 Q1080,620 1150,720"/>
+            <!-- Secondary formation -->
+            <path class="topo-detail" stroke-width="0.6" stroke-opacity="0.1" d="M700,200 Q780,160 850,200 Q920,240 940,320 Q960,400 910,460 Q860,520 780,530 Q700,540 650,480 Q600,420 630,340 Q660,260 700,200"/>
+            <path class="topo-detail" stroke-width="0.5" stroke-opacity="0.08" d="M730,240 Q790,210 840,240 Q890,270 900,330 Q910,390 870,430 Q830,470 770,475 Q710,480 680,440 Q650,400 670,340 Q690,280 730,240"/>
+            <path class="topo-detail" stroke-width="0.4" stroke-opacity="0.06" d="M760,280 Q800,260 830,285 Q860,310 865,355 Q870,400 845,430 Q820,460 785,462 Q750,465 730,435 Q710,405 725,360 Q740,315 760,280"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Layer 3: Fine detail contours -->
+      <div class="topo-layer topo-layer-3 topo-depth-3">
+        <svg class="topo-svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+          <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Lower left formation -->
+            <path class="topo-detail" stroke-width="0.5" stroke-opacity="0.09" d="M100,700 Q160,650 250,680 Q340,710 380,780 Q420,850 370,910 Q320,970 230,960 Q140,950 100,880 Q60,810 80,750 Q100,690 100,700"/>
+            <path class="topo-detail" stroke-width="0.4" stroke-opacity="0.07" d="M130,730 Q180,690 250,715 Q320,740 350,795 Q380,850 345,895 Q310,940 240,935 Q170,930 140,875 Q110,820 120,775 Q130,730 130,730"/>
+            <path class="topo-detail" stroke-width="0.3" stroke-opacity="0.05" d="M160,760 Q200,730 255,750 Q310,770 330,815 Q350,860 325,895 Q300,930 250,925 Q200,920 175,875 Q150,830 155,795 Q160,760 160,760"/>
+            <!-- Upper area details -->
+            <path class="topo-detail" stroke-width="0.4" stroke-opacity="0.06" d="M200,150 Q280,100 380,130 Q480,160 520,230 Q560,300 510,360 Q460,420 360,410 Q260,400 220,330 Q180,260 190,200 Q200,140 200,150"/>
+            <path class="topo-detail" stroke-width="0.3" stroke-opacity="0.05" d="M240,180 Q300,140 380,165 Q460,190 490,245 Q520,300 480,345 Q440,390 365,380 Q290,370 260,315 Q230,260 235,215 Q240,170 240,180"/>
+            <!-- Scattered small islands -->
+            <circle class="topo-detail" cx="850" cy="700" r="40" stroke-width="0.4" stroke-opacity="0.07"/>
+            <circle class="topo-detail" cx="850" cy="700" r="25" stroke-width="0.3" stroke-opacity="0.05"/>
+            <circle class="topo-detail" cx="150" cy="450" r="35" stroke-width="0.4" stroke-opacity="0.06"/>
+            <circle class="topo-detail" cx="150" cy="450" r="20" stroke-width="0.3" stroke-opacity="0.04"/>
+            <circle class="topo-detail" cx="920" cy="380" r="30" stroke-width="0.3" stroke-opacity="0.05"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Layer 4: Accent highlights -->
+      <div class="topo-layer topo-layer-4 topo-depth-3">
+        <svg class="topo-svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="shimmer" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0">
+                <animate attributeName="offset" values="-1;1" dur="3s" repeatCount="indefinite"/>
+              </stop>
+              <stop offset="50%" stop-color="#0ea5e9" stop-opacity="0.3">
+                <animate attributeName="offset" values="-0.5;1.5" dur="3s" repeatCount="indefinite"/>
+              </stop>
+              <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0">
+                <animate attributeName="offset" values="0;2" dur="3s" repeatCount="indefinite"/>
+              </stop>
+            </linearGradient>
+          </defs>
+          <g fill="none" stroke-linecap="round">
+            <!-- Shimmer accent lines -->
+            <path stroke="url(#shimmer)" stroke-width="1.5" d="M200,500 Q400,400 600,500 Q800,600 900,500"/>
+            <path stroke="url(#shimmer)" stroke-width="1" style="animation-delay: -1.5s" d="M100,650 Q350,550 550,650 Q750,750 950,650"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Interactive mouse glow -->
+      <div class="topo-interactive" id="topo-glow"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="relative z-10">
+      <slot />
+    </div>
+
+    <script>
+      // Intersection Observer for scroll reveal
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            if (entry.target.classList.contains('skill-bar-container')) {
+              entry.target.querySelectorAll('.skill-bar-fill').forEach(fill => fill.classList.add('animate'));
+            }
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.reveal, .stagger-children, .skill-bar-container').forEach(el => observer.observe(el));
+
+      // Smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          const targetSelector = this.getAttribute('href');
+          if (!targetSelector || targetSelector === '#') {
+            return;
+          }
+
+          e.preventDefault();
+          document.querySelector(targetSelector)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      // Interactive mouse glow effect
+      const topoGlow = document.getElementById('topo-glow');
+      let mouseX = 0, mouseY = 0;
+      let glowX = 0, glowY = 0;
+
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (topoGlow) {
+          topoGlow.style.opacity = '1';
+        }
+      });
+
+      document.addEventListener('mouseleave', () => {
+        if (topoGlow) {
+          topoGlow.style.opacity = '0';
+        }
+      });
+
+      // Smooth follow animation
+      function animateGlow() {
+        glowX += (mouseX - glowX - 300) * 0.08;
+        glowY += (mouseY - glowY - 300) * 0.08;
+
+        if (topoGlow) {
+          topoGlow.style.transform = `translate(${glowX}px, ${glowY}px)`;
+        }
+        requestAnimationFrame(animateGlow);
+      }
+      animateGlow();
+
+      // Subtle parallax on scroll
+      let ticking = false;
+      const layers = document.querySelectorAll('.topo-layer');
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            const scrollY = window.scrollY;
+            layers.forEach((layer, index) => {
+              const speed = (index + 1) * 0.02;
+              (layer as HTMLElement).style.transform = `translateY(${scrollY * speed}px)`;
+            });
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+    </script>
+  </body>
+</html>

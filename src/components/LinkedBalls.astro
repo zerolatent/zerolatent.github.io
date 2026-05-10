@@ -1,0 +1,282 @@
+---
+---
+
+<div class="sphere-wrapper">
+  <canvas id="hero-sphere" class="sphere-canvas"></canvas>
+</div>
+
+<style>
+  .sphere-wrapper {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    width: 350px;
+    height: 350px;
+    pointer-events: auto;
+    z-index: 1;
+  }
+
+  @media (max-width: 1024px) {
+    .sphere-wrapper {
+      width: 280px;
+      height: 280px;
+      right: 2%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .sphere-wrapper {
+      position: relative;
+      top: auto;
+      right: auto;
+      transform: none;
+      width: 250px;
+      height: 250px;
+      margin: 0 auto 2rem;
+      opacity: 0.6;
+    }
+  }
+
+  .sphere-canvas {
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+  }
+
+  .sphere-canvas:active {
+    cursor: grabbing;
+  }
+</style>
+
+<script>
+  const canvas = document.getElementById('hero-sphere') as HTMLCanvasElement;
+  if (canvas) {
+    const ctx = canvas.getContext('2d')!;
+
+    function resize() {
+      const container = canvas.parentElement!;
+      const size = Math.min(container.offsetWidth, container.offsetHeight);
+      canvas.width = size * window.devicePixelRatio;
+      canvas.height = size * window.devicePixelRatio;
+      canvas.style.width = size + 'px';
+      canvas.style.height = size + 'px';
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Sphere parameters
+    const numPoints = 120;
+    const connectionDistance = 0.42;
+    const autoRotationSpeed = 0.002;
+
+    interface Point3D {
+      x: number;
+      y: number;
+      z: number;
+      baseSize: number;
+    }
+
+    function generateSpherePoints(count: number): Point3D[] {
+      const points: Point3D[] = [];
+      const goldenRatio = (1 + Math.sqrt(5)) / 2;
+      const angleIncrement = Math.PI * 2 * goldenRatio;
+
+      for (let i = 0; i < count; i++) {
+        const t = i / count;
+        const inclination = Math.acos(1 - 2 * t);
+        const azimuth = angleIncrement * i;
+
+        const x = Math.sin(inclination) * Math.cos(azimuth);
+        const y = Math.sin(inclination) * Math.sin(azimuth);
+        const z = Math.cos(inclination);
+
+        const baseSize = 2 + Math.random() * 3;
+        points.push({ x, y, z, baseSize });
+      }
+
+      return points;
+    }
+
+    let points = generateSpherePoints(numPoints);
+    let angleY = 0;
+    let angleX = 0.3;
+
+    let isDragging = false;
+    let previousMouseX = 0;
+    let previousMouseY = 0;
+    let velocityX = 0;
+    let velocityY = 0;
+
+    function rotateY(point: Point3D, angle: number): Point3D {
+      const cos = Math.cos(angle);
+      const sin = Math.sin(angle);
+      return {
+        x: point.x * cos - point.z * sin,
+        y: point.y,
+        z: point.x * sin + point.z * cos,
+        baseSize: point.baseSize
+      };
+    }
+
+    function rotateX(point: Point3D, angle: number): Point3D {
+      const cos = Math.cos(angle);
+      const sin = Math.sin(angle);
+      return {
+        x: point.x,
+        y: point.y * cos - point.z * sin,
+        z: point.y * sin + point.z * cos,
+        baseSize: point.baseSize
+      };
+    }
+
+    function project(point: Point3D, size: number) {
+      const radius = size * 0.4;
+      const scale = 1 / (1 + point.z * 0.3);
+      return {
+        x: size / 2 + point.x * radius * scale,
+        y: size / 2 + point.y * radius * scale,
+        z: point.z,
+        size: point.baseSize * scale
+      };
+    }
+
+    function distance3D(p1: Point3D, p2: Point3D): number {
+      const dx = p1.x - p2.x;
+      const dy = p1.y - p2.y;
+      const dz = p1.z - p2.z;
+      return Math.sqrt(dx * dx + dy * dy + dz * dz);
+    }
+
+    // Mouse events
+    canvas.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      previousMouseX = e.clientX;
+      previousMouseY = e.clientY;
+      velocityX = 0;
+      velocityY = 0;
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        const deltaX = e.clientX - previousMouseX;
+        const deltaY = e.clientY - previousMouseY;
+        velocityY = deltaX * 0.005;
+        velocityX = deltaY * 0.005;
+        angleY += velocityY;
+        angleX += velocityX;
+        previousMouseX = e.clientX;
+        previousMouseY = e.clientY;
+      }
+    });
+
+    canvas.addEventListener('mouseup', () => { isDragging = false; });
+    canvas.addEventListener('mouseleave', () => { isDragging = false; });
+
+    // Touch support
+    canvas.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        isDragging = true;
+        previousMouseX = e.touches[0].clientX;
+        previousMouseY = e.touches[0].clientY;
+        velocityX = 0;
+        velocityY = 0;
+      }
+    });
+
+    canvas.addEventListener('touchmove', (e) => {
+      if (isDragging && e.touches.length === 1) {
+        const deltaX = e.touches[0].clientX - previousMouseX;
+        const deltaY = e.touches[0].clientY - previousMouseY;
+        velocityY = deltaX * 0.005;
+        velocityX = deltaY * 0.005;
+        angleY += velocityY;
+        angleX += velocityX;
+        previousMouseX = e.touches[0].clientX;
+        previousMouseY = e.touches[0].clientY;
+      }
+    });
+
+    canvas.addEventListener('touchend', () => { isDragging = false; });
+
+    function animate() {
+      const container = canvas.parentElement!;
+      const size = Math.min(container.offsetWidth, container.offsetHeight);
+
+      ctx.clearRect(0, 0, size, size);
+
+      // Auto-rotate with momentum
+      if (!isDragging) {
+        velocityX *= 0.95;
+        velocityY *= 0.95;
+        if (Math.abs(velocityY) < 0.001) {
+          angleY += autoRotationSpeed;
+        } else {
+          angleY += velocityY;
+        }
+        angleX += velocityX;
+      }
+
+      const rotatedPoints = points.map(p => {
+        let rotated = rotateY(p, angleY);
+        rotated = rotateX(rotated, angleX);
+        return rotated;
+      });
+
+      const projectedPoints = rotatedPoints.map(p => project(p, size));
+
+      const indices = Array.from({ length: points.length }, (_, i) => i);
+      indices.sort((a, b) => rotatedPoints[a].z - rotatedPoints[b].z);
+
+      // Get theme colors
+      const isDark = document.documentElement.classList.contains('dark') ||
+                     !document.documentElement.hasAttribute('data-theme') ||
+                     document.documentElement.getAttribute('data-theme') !== 'light';
+
+      const nodeColor = isDark ? '#ffffff' : '#000000';
+      const lineColor = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.1)';
+
+      // Draw connections
+      ctx.lineWidth = 0.8;
+      for (let i = 0; i < rotatedPoints.length; i++) {
+        for (let j = i + 1; j < rotatedPoints.length; j++) {
+          const dist = distance3D(rotatedPoints[i], rotatedPoints[j]);
+          if (dist < connectionDistance) {
+            const p1 = projectedPoints[i];
+            const p2 = projectedPoints[j];
+            const avgZ = (rotatedPoints[i].z + rotatedPoints[j].z) / 2;
+            const depthFade = 0.2 + (avgZ + 1) * 0.3;
+            const distFade = 1 - (dist / connectionDistance);
+
+            ctx.strokeStyle = lineColor;
+            ctx.globalAlpha = depthFade * distFade * 0.6;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw nodes
+      for (const i of indices) {
+        const p = projectedPoints[i];
+        const z = rotatedPoints[i].z;
+        const depthFade = 0.3 + (z + 1) * 0.35;
+
+        ctx.globalAlpha = depthFade;
+        ctx.fillStyle = nodeColor;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  }
+</script>
