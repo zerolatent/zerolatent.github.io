@@ -33,6 +33,7 @@ const currentYear = new Date().getFullYear();
 const pageTitle = `${profile.name} | ${profile.title}`;
 const [firstName, ...lastNameParts] = profile.name.split(' ');
 const lastName = lastNameParts.join(' ');
+const assetPath = (path: string) => (path.startsWith('/') ? path : `/${path}`);
 ---
 
 <!doctype html>
@@ -41,11 +42,11 @@ const lastName = lastNameParts.join(' ');
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={profile.summary} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
+    <link rel="icon" type="image/svg+xml" href={assetPath('/favicon.svg')} />
+    <link rel="icon" type="image/x-icon" href={assetPath('/favicon.ico')} />
+    <link rel="apple-touch-icon" sizes="180x180" href={assetPath('/apple-touch-icon.png')} />
+    <link rel="icon" type="image/png" sizes="192x192" href={assetPath('/favicon-192.png')} />
+    <link rel="icon" type="image/png" sizes="512x512" href={assetPath('/favicon-512.png')} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Mono:wght@400;700&family=Silkscreen&display=swap" rel="stylesheet" />
@@ -1393,7 +1394,7 @@ const lastName = lastNameParts.join(' ');
         <div class="hero__cta">
           <a href="#contact" class="btn btn--primary">Talk AI + Product</a>
           <a href="#projects" class="btn btn--secondary">See Projects</a>
-          <a href={profile.resumePath} download class="btn btn--secondary">Download Resume</a>
+          <a href={assetPath(profile.resumePath)} download class="btn btn--secondary">Download Resume</a>
         </div>
       </div>
 
@@ -1406,8 +1407,8 @@ const lastName = lastNameParts.join(' ');
           <div class="corner-accent corner-accent--br"></div>
           <div class="profile-image-wrapper">
             <div class="profile-image-inner">
-              <img src="/profile-ai-dreamy.jpg" alt={profile.name} class="profile-image profile-image--dark" />
-              <img src="/profile-light.jpg" alt={profile.name} class="profile-image profile-image--light" />
+              <img src={assetPath('/profile-ai-dreamy.jpg')} alt={profile.name} class="profile-image profile-image--dark" />
+              <img src={assetPath('/profile-light.jpg')} alt={profile.name} class="profile-image profile-image--light" />
             </div>
           </div>
         </div>
