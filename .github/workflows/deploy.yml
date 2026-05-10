@@ -28,19 +28,20 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: "22"
-          cache: npm
 
-      - name: Use stable npm
-        run: npm install -g npm@10.8.2
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
 
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Verify static links
-        run: npm run verify
+        run: pnpm run verify
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
