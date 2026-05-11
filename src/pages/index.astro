@@ -147,6 +147,10 @@ const assetPath = (path: string) => (path.startsWith('/') ? path : `/${path}`);
         box-shadow: 0 8px 30px rgba(8, 145, 178, 0.35);
       }
 
+      [data-theme="light"] .btn--resume {
+        box-shadow: 0 10px 28px rgba(8, 145, 178, 0.24), 0 0 0 1px rgba(8, 145, 178, 0.2);
+      }
+
       [data-theme="light"] .image-placeholder {
         border-color: var(--primary);
         box-shadow: 0 0 40px rgba(8, 145, 178, 0.15), 0 0 80px rgba(192, 38, 211, 0.08);
@@ -517,6 +521,7 @@ const assetPath = (path: string) => (path.startsWith('/') ? path : `/${path}`);
       .btn {
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 0.5rem;
         padding: 0.875rem 1.75rem;
         font-family: 'Silkscreen', cursive;
@@ -525,6 +530,12 @@ const assetPath = (path: string) => (path.startsWith('/') ? path : `/${path}`);
         text-transform: uppercase;
         letter-spacing: 1px;
         transition: all 0.3s ease;
+      }
+
+      .btn__icon {
+        width: 1rem;
+        height: 1rem;
+        flex: 0 0 auto;
       }
 
       .btn--primary {
@@ -547,6 +558,45 @@ const assetPath = (path: string) => (path.startsWith('/') ? path : `/${path}`);
       .btn--secondary:hover {
         background: var(--glow);
         transform: translateY(-3px);
+      }
+
+      .btn--resume {
+        position: relative;
+        overflow: hidden;
+        min-width: 15rem;
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 58%, #22d3ee 100%);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        box-shadow: 0 12px 34px rgba(6, 182, 212, 0.28), 0 0 34px var(--glow-accent);
+      }
+
+      .btn--resume::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+        transform: translateX(-110%);
+        transition: transform 0.6s ease;
+      }
+
+      .btn--resume:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 42px rgba(6, 182, 212, 0.36), 0 0 44px var(--glow-accent);
+      }
+
+      .btn--resume:hover::after {
+        transform: translateX(110%);
+      }
+
+      @media (max-width: 620px) {
+        .hero__cta {
+          width: 100%;
+        }
+
+        .btn {
+          width: 100%;
+        }
       }
 
       /* Hero Image */
@@ -1392,9 +1442,14 @@ const assetPath = (path: string) => (path.startsWith('/') ? path : `/${path}`);
           {profile.summary}
         </p>
         <div class="hero__cta">
+          <a href={assetPath(profile.resumePath)} download class="btn btn--resume">
+            <svg class="btn__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" />
+            </svg>
+            Download Resume
+          </a>
           <a href="#contact" class="btn btn--primary">Talk AI + Product</a>
           <a href="#projects" class="btn btn--secondary">See Projects</a>
-          <a href={assetPath(profile.resumePath)} download class="btn btn--secondary">Download Resume</a>
         </div>
       </div>
 
